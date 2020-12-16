@@ -118,9 +118,10 @@ int main(int argc, char **argv)
     }
     else
     {
+        
         printf("\n>>> Invalid attack selection. Must choose either dictionary or brute force attack.\n");
         help();
-        result = -1;
+        result = 1;
     }
     
     exit(result);

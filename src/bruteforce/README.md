@@ -12,8 +12,6 @@ The brute force attack mode is specified by using either a **-b** or **--brutefo
 
 ### Set the Options
 
-?? What is the default if nothing specified ??
-
 The options include lowercase and uppercase letters, numeric digits, and symbols. Any or all of these may be used as options for the execution of a brute force attack. 
 
 The settings may be specified as follows:
@@ -30,3 +28,13 @@ The settings may be specified as follows:
 All program runs require the hashed password to be specified using the -p argument followed by the hashed password string. The approach modelled in our project documentation generates the hash for a plain text password: 
 
 -p $(echo -n 'test' | sha256sum) 
+
+### Sample test case overall
+
+Under root folder of git project, clean solution: ``make clean``
+
+For serial: ``make serial || ./bin/serial-cracker -bluns -p $(echo -n 'test' | sha256sum) -v``
+
+For MPI: ``make mpi || mpirun -np 4 ./bin/mpi-cracker -bluns -p $(echo -n 'test' | sha256sum) -v``
+
+For OMP: ``make omp || OMP_NUM_THREADS=4 ./bin/omp-cracker -bluns -p $(echo -n 'test' | sha256sum) -v``

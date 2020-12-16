@@ -6,6 +6,17 @@
 #include "../hash/hash.h"
 #include "../globals.h"
 
+/**
+* Brute force attack entry function 
+*
+* Enhanced MPI solution based on the bruteforce-serial.c
+*
+* @param password_hash - hashed each character in password with sha256 values and hold them with this buffer.
+* @param characters - patters to compare with which relies on the option we have picked in the main.c program.
+* @param password_max_length - by default is 4, we might have -c N passes in as we are testing password with length N.
+* @param verbose - options to print out debug info
+* @return result - 1 indicates not found, 0 indicates found
+*/
 int bruteforce_crack(char *password_hash, char *characters, int password_max_length, int verbose)
 {
     // MPI Setup
@@ -34,11 +45,15 @@ int bruteforce_crack(char *password_hash, char *characters, int password_max_len
         // split up for loop for chunking work
         for (j = my_rank; j < possibilities;)
         {
-            // Periodically check result to break early
-            MPI_Allreduce(&result, &collective_result, 1, MPI_INT, MPI_MIN, MPI_COMM_WORLD);
-            if (collective_result == 0)
-            {
-                break;
+            // Only want to run an Allrecude if all processes are participating 
+            if(possibilities > p)
+            {  
+                // Periodically check result to break early
+                MPI_Allreduce(&result, &collective_result, 1, MPI_INT, MPI_MIN, MPI_COMM_WORLD);
+                if (collective_result == 0)
+                {
+                    break;
+                }
             }
 
             // Calculate and execute next chunk of work

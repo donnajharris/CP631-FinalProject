@@ -6,6 +6,17 @@
 #include "../hash/hash.h"
 #include "../globals.h"
 
+/**
+* Brute force attack entry function 
+*
+* Enhanced OMP solution based on the bruteforce-mpi.c
+*
+* @param password_hash - hashed each character in password with sha256 values and hold them with this buffer.
+* @param characters - patters to compare with which relies on the option we have picked in the main.c program.
+* @param password_max_length - by default is 4, we might have -c N passes in as we are testing password with length N.
+* @param verbose - options to print out debug info
+* @return result - 1 indicates not found, 0 indicates found
+*/
 int bruteforce_crack(char *password_hash, char *characters, int password_max_length, int verbose)
 {
     // Input Calculations
@@ -54,7 +65,7 @@ int bruteforce_crack(char *password_hash, char *characters, int password_max_len
     // Print not found result
     if (result == NOT_FOUND)
     {
-        printf("Password not found.\n");
+         printf("Password not found.\n");
     }
     return result;
 }

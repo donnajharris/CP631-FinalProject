@@ -8,6 +8,16 @@
 
 #define BATCH_SIZE 10000
 
+/**
+* Brute force attack entry function 
+*
+* @param password_hash - hashed each character in password with sha256 values and hold them with this buffer.
+* @param characters - patters to compare with which relies on the option we have picked in the main.c program.
+* @param password_max_length - by default is 4, we might have -c N passes in as we are testing password with length N.
+* @param verbose - options to print out debug info
+* @return 1 indicates not found, 0 indicates found
+*/
+
 int bruteforce_crack(char *password_hash, char *characters, int password_max_length, int verbose)
 {
     // Input Calculations
@@ -36,17 +46,15 @@ int bruteforce_crack(char *password_hash, char *characters, int password_max_len
                 }
             }
 
-            //printf("%.*s\n", BATCH_SIZE * i, inputArray);
             batch_hash(inputArray, outputArray, i, BATCH_SIZE);
             
             for(k = 0; k < BATCH_SIZE && k+j < possibilities; k++) 
             {
-                //printf("Password: %s\n", outputArray + k*65);
                 if (!strcmp(password_hash, outputArray + k*65))
                 {
                     printf("Password found: %s\n", outputArray + k*65);
                     result = FOUND;
-                    return result; // want to break out of these nested for loops...
+                    return result; 
                 }
             }
             j+=k;
